@@ -83,13 +83,13 @@ maven_install(
 )
 
 # Load Android Test Support Repository
-ANDROID_TEST_SUPPORT_TAG = "androidx-test-1.1.0"
-ANDROID_TEST_SUPPORT_SHA = "0842d5204e2cc12505eabd03e5dcdd76661a81a2ef9f131ea5f381aee76b379c"
+ANDROID_TEST_SUPPORT_TAG = "androidx-test-1.3.0-alpha03"
+ANDROID_TEST_SUPPORT_SHA = "8a163b601e66fee779060d7071d137117df3737f225bbb12b5628d72e6dc70dd"
 
 http_archive(
     name = "android_test_support",
     strip_prefix = "android-test-%s" % ANDROID_TEST_SUPPORT_TAG,
-    url = "https://github.com/android/android-test/archive/androidx-test-1.1.0.tar.gz",
+    urls = ["https://github.com/android/android-test/archive/%s.tar.gz" % ANDROID_TEST_SUPPORT_TAG],
     sha256 = ANDROID_TEST_SUPPORT_SHA,
 )
 
