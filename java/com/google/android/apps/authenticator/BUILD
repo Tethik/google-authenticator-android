@@ -64,8 +64,7 @@ android_library(
 
 # Production APK
 android_binary(
-    name = "authenticator",
-    aapt_version = "aapt",
+    name = "authenticator",    
     custom_package = "com.google.android.apps.authenticator2",
     manifest = "AndroidManifest.xml",
     proguard_specs = [
@@ -82,8 +81,7 @@ android_binary(
 # Multidex APK. This is not optimized by proguard and is for development/testing use only.
 [android_binary(
     name = "authenticator_multidex-%s" % dex_mode,
-    testonly = 1,
-    aapt_version = "aapt",
+    testonly = 1,    
     custom_package = "com.google.android.apps.authenticator2",
     dex_shards = 25,
     manifest = "AndroidManifest.xml",
