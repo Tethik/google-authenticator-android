@@ -56,6 +56,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -287,6 +288,10 @@ public class AuthenticatorActivity extends TestableActivity {
 
     totpCounter = otpProvider.getTotpCounter();
     totpClock = otpProvider.getTotpClock();
+
+
+    // Block screenshots
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
     setContentView(R.layout.main);
 
