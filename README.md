@@ -70,9 +70,9 @@ repository.
 
 ### Prerequisites
 
-* [Android SDK][] v28
-* [Android Build Tools][] v28.0.3
-* [Bazel][] 0.12.0+
+* [Android SDK][] v29
+* [Android Build Tools][] v29.0.3
+* [Bazel][] 2.1.0+
 * [Git][]
 
 Google Authenticator is built with [Bazel][]. To install Bazel on your machine,
