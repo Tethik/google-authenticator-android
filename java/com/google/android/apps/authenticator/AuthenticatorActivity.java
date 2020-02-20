@@ -127,6 +127,12 @@ public class AuthenticatorActivity extends TestableActivity {
    */
   public static final String KEY_ONBOARDING_COMPLETED = "onboardingCompleted";
 
+  /**
+   * Key under which {@link #onboardingCompleted} is stored to know if user has completed the first
+   * onboarding experience or not.
+   */
+  public static final String KEY_BLOCK_SCREENSHOTS_ENABLED = "blockScreenshotsEnabled";
+
   /** Frequency (milliseconds) with which TOTP countdown indicators are updated. */
   public static final long TOTP_COUNTDOWN_REFRESH_PERIOD_MILLIS = 100L;
 
@@ -242,6 +248,10 @@ public class AuthenticatorActivity extends TestableActivity {
   @VisibleForTesting
   boolean onboardingCompleted;
 
+  /** Whether screenshots should be blocked. */
+  @VisibleForTesting
+  boolean blockScreenshotsEnabled;
+
   /** Contains the bottom sheet instance showed when user click the red FAB */
   @VisibleForTesting BottomSheetDialog bottomSheetDialog;
 
@@ -291,7 +301,10 @@ public class AuthenticatorActivity extends TestableActivity {
 
 
     // Block screenshots
-    getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    blockScreenshotsEnabled = preferences.getBoolean(KEY_BLOCK_SCREENSHOTS_ENABLED, true);
+    if (blockScreenshotsEnabled) {
+      getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+    }
 
     setContentView(R.layout.main);
 
@@ -649,9 +662,14 @@ public class AuthenticatorActivity extends TestableActivity {
   protected void onResume() {
     super.onResume();
     Log.i(getString(R.string.app_name), LOCAL_TAG + ": onResume");
+    boolean currentlyBlockingScreenshots = blockScreenshotsEnabled;
+    blockScreenshotsEnabled = preferences.getBoolean(KEY_BLOCK_SCREENSHOTS_ENABLED, true);
     darkModeEnabled = preferences.getBoolean(KEY_DARK_MODE_ENABLED, false);
     onboardingCompleted = preferences.getBoolean(KEY_ONBOARDING_COMPLETED, false);
     refreshToolbarAndStatusBarStyle();
+    if (currentlyBlockingScreenshots != blockScreenshotsEnabled) {
+      restartActivity();
+    }
   }
 
   @Override
@@ -1301,15 +1319,19 @@ public class AuthenticatorActivity extends TestableActivity {
     startActivity(intent);
   }
 
+  private void restartActivity() {
+    finish();
+    overridePendingTransition(0, 0);
+    startActivity(new Intent(this, getClass()));
+    overridePendingTransition(0, 0);
+  }
+
   private void switchUiMode() {
     darkModeEnabled = !darkModeEnabled;
     preferences.edit().putBoolean(KEY_DARK_MODE_ENABLED, darkModeEnabled).commit();
     // Restart the activity to apply new theme. Here we try to remove the fade animation to help
     // users feel the app just do some light refreshing.
-    finish();
-    overridePendingTransition(0, 0);
-    startActivity(new Intent(this, getClass()));
-    overridePendingTransition(0, 0);
+    restartActivity();
   }
 
   private void showSettings() {
