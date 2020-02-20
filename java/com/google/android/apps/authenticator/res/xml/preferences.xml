@@ -29,4 +29,8 @@
                     android:persistent="false">
     <intent android:action="com.google.android.apps.authenticator.settings.ABOUT" />
   </PreferenceScreen>
+  <SwitchPreference
+      android:defaultValue="true"
+      android:key="blockScreenshotsEnabled"
+      android:title="Block Screenshots" />
 </PreferenceScreen>
