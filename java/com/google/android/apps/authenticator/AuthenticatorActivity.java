@@ -128,8 +128,8 @@ public class AuthenticatorActivity extends TestableActivity {
   public static final String KEY_ONBOARDING_COMPLETED = "onboardingCompleted";
 
   /**
-   * Key under which {@link #onboardingCompleted} is stored to know if user has completed the first
-   * onboarding experience or not.
+   * Key under which {@link #blockScreenshotsEnabled} is stored to know if screenshots should be
+   * blocked or not.
    */
   public static final String KEY_BLOCK_SCREENSHOTS_ENABLED = "blockScreenshotsEnabled";
 
